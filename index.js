@@ -5,6 +5,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const fs = require('fs');
 
+app.set('port', (process.env.PORT || 3000));
 app.use(express.static('static'));
 
 const rooms = new Rooms(io);
@@ -20,5 +21,6 @@ app.get('/createNewRoom', (req, res) => {
     res.redirect(`/session.html?sessionId=${roomId}`);
 });
 
-http.listen(3000);
-console.log('Server listening....');
+http.listen(app.get('port'), function() {
+    console.log(`server listen with ${app.get('port')} port`);
+});
